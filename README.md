@@ -3,6 +3,8 @@ google-play-store-info
 
 Google Play Storeのアプリ情報をスクレイピングしてJSONフォーマットで返すよ
 
+http://{server_path}/app-detail?id={app_package_name}
+
 ```
 {
   "message":"app fetched",
