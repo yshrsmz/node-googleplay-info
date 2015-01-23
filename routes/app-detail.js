@@ -51,10 +51,7 @@ router.get('/', function(req, res, next) {
         resultObj.message = 'app ' + appPackage + ' fetched';
         resultObj.data = data;
 
-        res.json({
-            message: 'app fetched',
-            data: data
-        });
+        res.json(resultObj);
     });
 });
 
