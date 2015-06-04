@@ -1,5 +1,5 @@
 {
-  "name": "node-googleplay-info",
+  "name": "googleplay-info",
   "version": "0.1.0",
   "description": "obtain android app/device info from google play",
   "main": "index.js",
