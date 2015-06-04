@@ -4,10 +4,12 @@ var client = require('cheerio-httpcli');
 var router = express.Router();
 
 var selectors = {
-    name: 'div.document-title[itemprop=name]',
-    purchaseButton: '.play-button.devices',
-    stockStatus: '.inventory-info .in-stock',
-    shippingNote: '.inventory-info .shipping-note'
+    name: 'h1.title-text',
+    variant: 'div[data-available][data-backend-docid][data-price]',
+    variantAvailable: 'data-available',
+    variantName: 'data-backend-docid',
+    variantPrice: 'data-price',
+    variantShipping: 'data-shipping'
 };
 
 router.get('/', function(req, res, next) {
@@ -31,7 +33,7 @@ router.get('/', function(req, res, next) {
 
     console.log(deviceName);
 
-    client.fetch('http://play.google.com/store/devices/details', {id: deviceName}, function(err, $, res2) {
+    client.fetch('https://store.google.com/product/' + deviceName, {}, function(err, $, res2) {
         if (err) {
             if (err.statusCode === 404) {
                 resultObj.message = 'device ' + deviceName + ' was not found.';
@@ -48,30 +50,29 @@ router.get('/', function(req, res, next) {
 
         var data = {
             deviceName: deviceName,
-            isAvailable: false,
-            price: '?',
-            stockStatus: '',
-            shippingNote: ''
+            available: false,
+            variants: []
         };
 
         data.name = $(selectors.name).text().trim();
 
-        var $purchaseBtn = $(selectors.purchaseButton);
-        data.isAvailable = !$purchaseBtn.hasClass('disabled');
+        var $variants = $(selectors.variant);
 
-        var text = $purchaseBtn.text();
-        var price = text.slice(text.indexOf('￥')).trim();
+        $variants.each(function(idx) {
+            var $el = $(this);
+            var variant = {
+                name: $el.attr(selectors.variantName).trim(),
+                price: $el.attr(selectors.variantPrice).trim(),
+                available: $el.attr(selectors.variantAvailable).trim() === 'true',
+                shipping: $el.attr(selectors.variantShipping).trim()
+            };
 
-        if (price) {
-            data.price = price;
-        }
+            if (variant.available) {
+                data.available = true;
+            }
 
-        var $stockStatus = $(selectors.stockStatus);
-        data.stockStatus = $stockStatus.text().trim();
-
-        var $shippingNote = $(selectors.shippingNote);
-        $shippingNote.find('a').remove();
-        data.shippingNote = $shippingNote.text().trim();
+            data.variants.push(variant);
+        });
 
         res.json({
             message: 'device fetched',
