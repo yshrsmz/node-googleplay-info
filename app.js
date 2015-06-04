@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 
 var appDetail = require('./routes/app-detail');
 var deviceDetail = require('./routes/device-detail');
+var devices = require('./routes/devices');
 
 var app = express();
 
@@ -24,6 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/app-detail', appDetail);
 app.use('/device-detail', deviceDetail);
+app.use('/devices', devices);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
