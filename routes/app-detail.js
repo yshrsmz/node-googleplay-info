@@ -35,6 +35,7 @@ router.get('/', function(req, res, next) {
             }
             resultObj.statusCode = err.statusCode;
             res.json(resultObj);
+            return;
         }
         console.log(res2.headers);
 

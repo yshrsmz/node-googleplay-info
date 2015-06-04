@@ -44,6 +44,8 @@ router.get('/', function(req, res, next) {
             }
         });
 
+        resultObj.message = 'device list fetched';
+
         console.log(resultObj.data);
         res.json(resultObj);
     });
