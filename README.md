@@ -20,7 +20,7 @@ GooglePlayInfo.getAppDetail('some.nice.app.package', function(err, data) {
   console.log(data);
   
   //{
-  //  "message": "app com.instagram.layout fetched",
+  //  "message": "app some.nice.app.package fetched",
   //  "statusCode": 200,
   //  "data": {
   //    "package": "some.nice.app.package",
