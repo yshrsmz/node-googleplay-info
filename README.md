@@ -1,6 +1,8 @@
 google-play-store-info
 ======================
 
+[![npm version](https://badge.fury.io/js/googleplay-info.svg)](http://badge.fury.io/js/googleplay-info)
+
 Unofficial Google Play API to retrieve app info & device product info.
 
 
